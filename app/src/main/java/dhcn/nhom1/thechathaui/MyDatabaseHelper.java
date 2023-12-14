@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -141,6 +143,27 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESULTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRACKERS);
         onCreate(db);
+    }
+
+    public String getStudentsIdSignIn(Context context){
+        String rs = null;
+
+        try {
+            FileInputStream in= context.openFileInput("SignIn.txt");
+            BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+            StringBuilder builder=new StringBuilder();
+            rs = reader.readLine();
+            if(rs.trim().length() != 0){
+                return rs;
+            }
+            in.close();
+            return rs;
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+            Toast.makeText(context,"Không thể đọc dữ liệu sinh viên đăng nhập", Toast.LENGTH_SHORT).show();
+        }
+        return rs;
     }
 
     public int checkSignIn(Student s){
