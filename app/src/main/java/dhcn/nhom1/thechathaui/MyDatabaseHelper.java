@@ -145,7 +145,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String getStudentsIdSignIn(Context context){
+    public String getStudentIdSignIn(Context context){
         String rs = null;
 
         try {
