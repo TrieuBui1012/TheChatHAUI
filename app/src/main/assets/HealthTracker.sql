@@ -9,8 +9,8 @@ CREATE TABLE students (
     underlying_disease TEXT,
     gender INTEGER,
     dob TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime'))
 );
 
 INSERT INTO students (student_code, password, fullname, avatar, height, weight, underlying_disease, gender, dob)
@@ -26,8 +26,8 @@ CREATE TABLE courses (
     course_name TEXT,
     is_physical INTEGER,
     credits REAL,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime'))
 );
 
 INSERT INTO courses (course_code, course_name, is_physical, credits)
@@ -110,8 +110,8 @@ CREATE TABLE instructors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     instructor_code INTEGER UNIQUE,
     fullname TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime'))
 );
 
 INSERT INTO instructors (instructor_code, fullname)
@@ -128,8 +128,8 @@ CREATE TABLE classes (
     time_in_day TEXT,
     started_at TEXT,
     finished_at TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime')),
     course_id INTEGER NOT NULL,
     instructor_id INTEGER NOT NULL,
     FOREIGN KEY (course_id) REFERENCES courses(id),
@@ -139,9 +139,12 @@ CREATE TABLE classes (
 INSERT INTO classes (class_code, days_in_week, time_in_day, started_at, finished_at, course_id, instructor_id)
 VALUES ('20211IT6029001', '5', '7,8,9', '2023-09-16', '2023-11-11', 71, 1),
     ('20211PE6027001', '1,3', '1,2', '2023-09-16', '2023-11-01', 30, 2),
-    ('20211IT6039001', '2', '1,2,3', '2023-09-16', '2023-12-31', 64, 3),
-    ('20211IT6043001', '4', '7,8,9', '2023-09-13', '2023-12-31', 66, 4),
-    ('20211IT6071001', '0', '4,5,6', '2023-09-15', '2023-12-31', 62, 5);
+    ('20211IT6039001', '1,3', '1,2,3', '2023-09-16', '2024-01-31', 64, 3),
+    ('20211IT6043001', '4,5,6', '7,8,9', '2023-09-13', '2024-01-31', 66, 4),
+    ('20211IT6071001', '0,2', '4,5,6', '2023-09-15', '2024-01-31', 62, 5),
+    ('20211IT6100001', '1,3', '4,5,6', '2023-09-16', '2024-01-31', 63, 5),
+    ('20211IT6056001', '4,5,6', '10,11,12', '2023-09-13', '2024-01-31', 67, 3),
+    ('20211IT6013001', '0,2', '7,8,9', '2023-09-15', '2024-01-31', 70, 4);
 
 CREATE TABLE trackers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -149,25 +152,25 @@ CREATE TABLE trackers (
     liter REAL,
     is_doing_exercise INTEGER,
     exercise_span INTEGER,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime')),
     student_id INTEGER NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(id)
 );
 
 INSERT INTO trackers (is_enough_water, liter, is_doing_exercise, exercise_span, student_id, created_at)
-VALUES (1, 2.4, 1, 30, 1, '2023-12-01 00:00:00'),
-    (0, 2.4, 0, 0, 1, '2023-12-02 00:00:00'),
-    (1, 2.4, 1, 15, 1, '2023-12-03 00:00:00'),
-    (1, 2.4, 1, 30, 1, '2023-12-04 00:00:00'),
-    ( 0, 2.4, 0, 0, 1, '2023-12-05 00:00:00');
+VALUES (1, 2.3, 1, 30, 1, '2023-12-01 00:00:00'),
+    (0, 2.0, 0, 0, 1, '2023-12-02 00:00:00'),
+    (1, 2.1, 1, 15, 1, '2023-12-03 00:00:00'),
+    (1, 2.3, 1, 30, 1, '2023-12-04 00:00:00'),
+    (0, 2.0, 0, 0, 1, '2023-12-05 00:00:00');
 
 CREATE TABLE healths (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     BMI REAL,
     disease TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime')),
     student_id INTEGER NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(id)
 );
@@ -186,8 +189,8 @@ CREATE TABLE results (
     midterm_score REAL,
     test1 REAL,
     test2 REAL,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime')),
     student_id INTEGER NOT NULL,
     class_id INTEGER NOT NULL,
     FOREIGN KEY (class_id) REFERENCES classes(id),
@@ -199,15 +202,18 @@ VALUES (1, 10.0, 10.0, 10.0, 10.0, 1, 1),
     (1, 10.0, 10.0, 10.0, 10.0, 1, 2),
     (null, null, null, null, null, 1, 3),
     (null, null, null, null, null, 1, 4),
-    (null, null, null, null, null, 1, 5);
+    (null, null, null, null, null, 1, 5),
+    (null, null, null, null, null, 1, 6),
+    (null, null, null, null, null, 1, 7),
+    (null, null, null, null, null, 1, 8);
 
 CREATE TABLE onleaves (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     status INTEGER,
     reason TEXT,
     date TEXT,
-    created_at TEXT,
-    updated_at TEXT,
+    created_at TEXT DEFAULT (datetime('now', 'localtime')),
+    updated_at TEXT DEFAULT (datetime('now', 'localtime')),
     class_id INTEGER NOT NULL,
     student_id INTEGER NOT NULL,
     FOREIGN KEY (class_id) REFERENCES classes(id),

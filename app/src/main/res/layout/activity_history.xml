@@ -5,64 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DCEDC8"
-    tools:context=".LeaveReportFragment">
+    tools:context=".HistoryActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarLR"
+        android:id="@+id/toolbarLichSu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#4CAF50"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Báo nghỉ"
-        app:titleTextColor="@color/white" />
+        app:title="Lịch sử"
+        app:titleTextColor="#FFFFFF" />
 
     <TextView
-        android:id="@+id/txvChonNgayBN"
+        android:id="@+id/txvLichSu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Chọn ngày:"
-        android:textColor="#000000"
+        android:text="Từ ngày đến ngày"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarLR" />
-
-    <TextView
-        android:id="@+id/txvNgayNghi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="20dp"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarLR" />
-
-    <ImageButton
-        android:id="@+id/imbNgayNghi"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="10dp"
-        android:background="#4CAF50"
-        android:src="@drawable/ic_date_picker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarLR" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLichSu" />
 
     <ListView
-        android:id="@+id/lsvNgayNghi"
+        android:id="@+id/lsvLichSu"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imbNgayNghi" />
+        app:layout_constraintTop_toBottomOf="@+id/txvLichSu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

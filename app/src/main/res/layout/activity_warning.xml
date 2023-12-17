@@ -8,7 +8,7 @@
     tools:context=".WarningActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imvWarning"
         android:layout_width="413dp"
         android:layout_height="526dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/rectangle_gray" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txvCanhBao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txvChatKichThich"
         android:layout_width="272dp"
         android:layout_height="102dp"
         android:layout_marginTop="24dp"
@@ -42,10 +42,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/txvCanhBao" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txvKhauHieu"
         android:layout_width="273dp"
         android:layout_height="31dp"
         android:layout_marginTop="40dp"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/txvChatKichThich" />
 
     <CheckBox
         android:id="@+id/chbXacNhan"
@@ -67,7 +67,7 @@
         android:text="Xác nhận"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/txvKhauHieu" />
 
     <Button
         android:id="@+id/btnTiepTheo"
@@ -78,20 +78,21 @@
         android:layout_marginEnd="50dp"
         android:background="#4CAF50"
         android:text="Tiếp theo"
+        android:textColor="#FFFFFF"
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imvWarning" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imvIconCanhBao"
         android:layout_width="73dp"
         android:layout_height="61dp"
         android:layout_marginTop="-20dp"
         android:layout_marginEnd="11dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/txvCanhBao"
+        app:layout_constraintTop_toTopOf="@+id/txvCanhBao"
         app:srcCompat="@drawable/ic_warning" />
 </androidx.constraintlayout.widget.ConstraintLayout>
