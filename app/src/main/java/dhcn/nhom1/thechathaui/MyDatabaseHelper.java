@@ -159,23 +159,23 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             FileInputStream in= context.openFileInput("SignIn.txt");
             BufferedReader reader=new BufferedReader(new InputStreamReader(in));
             rs = reader.readLine();
-            if(rs.trim().length() != 0){
+            if (rs.trim().length() != 0) {
                 return rs;
             }
             in.close();
         } catch (FileNotFoundException e) {
 
         } catch (IOException e) {
-            Toast.makeText(context,"Không thể đọc dữ liệu sinh viên đăng nhập", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Không thể đọc dữ liệu sinh viên đăng nhập", Toast.LENGTH_SHORT).show();
         }
         return rs;
     }
 
-    public int checkSignIn(Student s){
+    public int checkSignIn(Student s) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
 
-        try{
+        try {
             cursor = db.query(TABLE_STUDENTS,
                     new String[]{STUDENTS_ID},
                     STUDENTS_STUDENT_CODE + " = ? AND " + STUDENTS_PASSWORD + " = ?",
@@ -187,11 +187,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return -1;
         }
 
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
             cursor.close();
             db.close();
             return -1;
-        }else{
+        } else {
             cursor.moveToFirst();
             int rs = cursor.getInt(0);
             cursor.close();
@@ -199,25 +199,25 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return rs;
         }
     }
-    public Student getAccountById(long id){
+
+    public Student getAccountById(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
-        try{
+        try {
             cursor = db.query(TABLE_STUDENTS,
                     new String[]{STUDENTS_STUDENT_CODE, STUDENTS_PASSWORD},
                     STUDENTS_ID + " = ?",
                     new String[]{String.valueOf(id)},
                     null, null, null);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             db.close();
             return null;
         }
-        if(cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
             cursor.close();
             db.close();
             return null;
-        }else{
+        } else {
             cursor.moveToFirst();
             Student s = new Student();
             s.setStudent_code(cursor.getInt(0));
@@ -227,6 +227,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return s;
         }
     }
+
     public Student getStudentById(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
@@ -574,4 +575,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return rowAffected;
     }
+
+    public boolean updateStudent(String id, Student student) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues st = new ContentValues();
+        st.put(STUDENTS_HEIGHT, student.getHeight());
+        st.put(STUDENTS_WEIGHT, student.getWeight());
+        st.put(STUDENTS_UNDERLYING_DISEASE, student.getUnderlying_disease());
+
+        if (db.update(TABLE_STUDENTS, st, STUDENTS_ID + " = " + id, null) != 0) {
+            return true;
+        }
+        return false;
+    }
+
 }
