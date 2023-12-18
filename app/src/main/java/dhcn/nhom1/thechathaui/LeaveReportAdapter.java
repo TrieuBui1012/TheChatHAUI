@@ -46,12 +46,13 @@ public class LeaveReportAdapter extends ArrayAdapter {
                 txvTinhTrangLR.setText("Tình trạng: Bình thường");
             } else if (list.get(position).getStatus() == 1) {
                 txvTinhTrangLR.setText("Tình trạng: Báo ốm");
+                txvLiDoLR.setText((list.get(position).getReason() == null) ? "" : ("Bệnh: " + list.get(position).getReason()));
             } else if (list.get(position).getStatus() == 2) {
                 txvTinhTrangLR.setText("Tình trạng: Báo nghỉ");
+                txvLiDoLR.setText((list.get(position).getReason() == null) ? "" : ("Lí do: " + list.get(position).getReason()));
             } else {
                 txvTinhTrangLR.setText("Tình trạng: Lỗi dữ liệu");
             }
-            txvLiDoLR.setText((list.get(position).getReason() == null) ? "" : ("Lí do: " + list.get(position).getReason()));
         }
         return convertView;
     }
