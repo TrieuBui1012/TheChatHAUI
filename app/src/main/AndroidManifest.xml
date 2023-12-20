@@ -13,10 +13,16 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".PhysicalResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhysicalCoursesActivity"
+            android:exported="false" />
+        <activity
             android:name=".LeaveReasonActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:label="Báo nghỉ"/>
+            android:label="Báo nghỉ"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".HistoryActivity"
             android:exported="false" />
