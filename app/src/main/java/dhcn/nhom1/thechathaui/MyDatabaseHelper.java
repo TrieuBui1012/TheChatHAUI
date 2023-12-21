@@ -505,16 +505,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 "JOIN classes ON results.class_id = classes.id " +
                 "JOIN courses ON classes.course_id = courses.id " +
                 "WHERE students.id = " + studentId + " AND courses.is_physical = 1";
+
+        String rawQueryData = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s " +
+                        "FROM %s " +
+                        "JOIN %s ON %s.%s = %s.%s " +
+                        "JOIN %s ON %s.%s = %s.%s " +
+                        "JOIN %s ON %s.%s = %s.%s " +
+                        "WHERE %s.%s = " + "%s" + " AND %s.%s = %s", TABLE_COURSES, COURSES_COURSE_CODE, TABLE_COURSES, COURSES_COURSE_NAME,
+                TABLE_COURSES, COURSES_CREDITS, TABLE_CLASSES, CLASSES_CLASS_CODE, TABLE_RESULTS, RESULTS_EXAM_SCORE, TABLE_RESULTS,
+                RESULTS_MIDTERM_SCORE, TABLE_RESULTS, RESULTS_TEST1, TABLE_STUDENTS, TABLE_RESULTS, TABLE_STUDENTS, STUDENTS_ID, TABLE_RESULTS,
+                RESULTS_STUDENT_ID, TABLE_CLASSES, TABLE_RESULTS, RESULTS_CLASS_ID, TABLE_CLASSES, CLASSES_ID, TABLE_COURSES, TABLE_CLASSES,
+                CLASSES_COURSE_ID, TABLE_COURSES, COURSES_ID, TABLE_STUDENTS, STUDENTS_ID, String.valueOf(studentId), TABLE_COURSES, COURSES_IS_PHYSICAL, "1");
+
         try {
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(rawQueryData, null);
         } catch (Exception e) {
             db.close();
-            return null;
+            return (new ArrayList<PhysicalResult>());
         }
         if (cursor.getCount() == 0) {
             cursor.close();
             db.close();
-            return null;
+            return (new ArrayList<PhysicalResult>());
         } else {
             cursor.moveToFirst();
             ArrayList<PhysicalResult> results = new ArrayList<PhysicalResult>();
