@@ -174,7 +174,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         } else if (BMI < 23) {
             txvBMITT.setText("Bình thường");
         } else if (BMI < 25) {
-            txvBMITT.setText("Tiền béo phí");
+            txvBMITT.setText("Tiền béo phì");
         } else if (BMI < 30) {
             txvBMITT.setText("Béo phì độ I");
         } else{
