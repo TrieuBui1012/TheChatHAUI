@@ -152,12 +152,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String getStudentIdSignIn(){
+    public String getStudentIdSignIn() {
         String rs = null;
 
         try {
-            FileInputStream in= context.openFileInput("SignIn.txt");
-            BufferedReader reader=new BufferedReader(new InputStreamReader(in));
+            FileInputStream in = context.openFileInput("SignIn.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             rs = reader.readLine();
             if (rs.trim().length() != 0) {
                 return rs;
@@ -181,8 +181,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     STUDENTS_STUDENT_CODE + " = ? AND " + STUDENTS_PASSWORD + " = ?",
                     new String[]{String.valueOf(s.getStudent_code()), s.getPassword()},
                     null, null, null);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             db.close();
             return -1;
         }
@@ -266,8 +265,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return s;
         }
     }
+
     //Thêm nếu chưa có, cập nhật nếu đã có
-    public boolean addHealthRecord(Health health){
+    public boolean addHealthRecord(Health health) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "%";
@@ -290,7 +290,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             db.close();
             return true;
-        } else{
+        } else {
             cursor.moveToFirst();
             ContentValues values = new ContentValues();
             values.put(HEALTHS_BMI, health.getBMI());
@@ -303,8 +303,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
     //Thêm nếu chưa có, cập nhật nếu đã có
-    public boolean addTrackerRecord(Tracker tracker){
+    public boolean addTrackerRecord(Tracker tracker) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "%";
@@ -329,7 +330,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             db.close();
             return true;
-        } else{
+        } else {
             cursor.moveToFirst();
             ContentValues values = new ContentValues();
             values.put(TRACKERS_IS_ENOUGH_WATER, tracker.getIs_enough_water());
@@ -382,7 +383,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<Tracker> getTrackerInDateRange(String start, String end, long studentId){
+    public ArrayList<Tracker> getTrackerInDateRange(String start, String end, long studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         try {
@@ -404,7 +405,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         } else {
             cursor.moveToFirst();
             ArrayList<Tracker> trackers = new ArrayList<Tracker>();
-            do{
+            do {
                 Tracker tracker = new Tracker();
                 tracker.setId(cursor.getLong(0));
                 tracker.setIs_enough_water(cursor.getLong(1));
@@ -421,7 +422,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return trackers;
         }
     }
-    public Health getHealthByDate(String date, long studentId){
+
+    public Health getHealthByDate(String date, long studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         date = date + "%";
@@ -453,12 +455,104 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return health;
         }
     }
-    public ArrayList<LeaveReport> getLeaveReportsByDate(String date, long studentId){
+
+    public ArrayList<Course> getPhysicalCourses() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_COURSES,
+                    new String[]{COURSES_ID, COURSES_COURSE_CODE, COURSES_COURSE_NAME,
+                            COURSES_IS_PHYSICAL, COURSES_CREDITS, COURSES_CREATED_AT,
+                            COURSES_UPDATED_AT},
+                    COURSES_IS_PHYSICAL + " = 1",
+                    new String[]{},
+                    null, null, null);
+        } catch (Exception e) {
+            db.close();
+            return null;
+        }
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            db.close();
+            return null;
+        } else {
+            cursor.moveToFirst();
+            ArrayList<Course> courses = new ArrayList<Course>();
+            do {
+                Course course = new Course();
+                course.setId(cursor.getLong(0));
+                course.setCourse_code(cursor.getString(1));
+                course.setCourse_name(cursor.getString(2));
+                course.setIs_physical(cursor.getLong(3));
+                course.setCredits(cursor.getLong(4));
+                course.setCreated_at(cursor.getString(5));
+                course.setUpdated_at(cursor.getString(6));
+                courses.add(course);
+            } while (cursor.moveToNext());
+            cursor.close();
+            db.close();
+            return courses;
+        }
+    }
+
+    public ArrayList<PhysicalResult> getPhysicalResults(long studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        String query = "SELECT courses.course_code, courses.course_name, courses.credits, " +
+                "classes.class_code, results.exam_score, results.midterm_score, results.test1 " +
+                "FROM students " +
+                "JOIN results ON students.id = results.student_id " +
+                "JOIN classes ON results.class_id = classes.id " +
+                "JOIN courses ON classes.course_id = courses.id " +
+                "WHERE students.id = " + studentId + " AND courses.is_physical = 1";
+
+        String rawQueryData = String.format("SELECT %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s, %s.%s " +
+                        "FROM %s " +
+                        "JOIN %s ON %s.%s = %s.%s " +
+                        "JOIN %s ON %s.%s = %s.%s " +
+                        "JOIN %s ON %s.%s = %s.%s " +
+                        "WHERE %s.%s = " + "%s" + " AND %s.%s = %s", TABLE_COURSES, COURSES_COURSE_CODE, TABLE_COURSES, COURSES_COURSE_NAME,
+                TABLE_COURSES, COURSES_CREDITS, TABLE_CLASSES, CLASSES_CLASS_CODE, TABLE_RESULTS, RESULTS_EXAM_SCORE, TABLE_RESULTS,
+                RESULTS_MIDTERM_SCORE, TABLE_RESULTS, RESULTS_TEST1, TABLE_STUDENTS, TABLE_RESULTS, TABLE_STUDENTS, STUDENTS_ID, TABLE_RESULTS,
+                RESULTS_STUDENT_ID, TABLE_CLASSES, TABLE_RESULTS, RESULTS_CLASS_ID, TABLE_CLASSES, CLASSES_ID, TABLE_COURSES, TABLE_CLASSES,
+                CLASSES_COURSE_ID, TABLE_COURSES, COURSES_ID, TABLE_STUDENTS, STUDENTS_ID, String.valueOf(studentId), TABLE_COURSES, COURSES_IS_PHYSICAL, "1");
+
+        try {
+            cursor = db.rawQuery(rawQueryData, null);
+        } catch (Exception e) {
+            db.close();
+            return (new ArrayList<PhysicalResult>());
+        }
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            db.close();
+            return (new ArrayList<PhysicalResult>());
+        } else {
+            cursor.moveToFirst();
+            ArrayList<PhysicalResult> results = new ArrayList<PhysicalResult>();
+            do {
+                PhysicalResult result = new PhysicalResult();
+                result.setCourse_code(cursor.getString(0));
+                result.setCourse_name(cursor.getString(1));
+                result.setCredits(cursor.getLong(2));
+                result.setClass_code(cursor.getString(3));
+                result.setExam_score(cursor.getLong(4));
+                result.setMidterm_score(cursor.getLong(5));
+                result.setTest1(cursor.getLong(6));
+                results.add(result);
+            } while (cursor.moveToNext());
+            cursor.close();
+            db.close();
+            return results;
+        }
+    }
+
+    public ArrayList<LeaveReport> getLeaveReportsByDate(String date, long studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
 
         String dates[] = date.split("/");
-        date = dates[2] + "-" + dates[1] + "-" + dates[0] ;
+        date = dates[2] + "-" + dates[1] + "-" + dates[0];
 
 
         Calendar cal = Calendar.getInstance();
@@ -469,9 +563,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
         int day_of_week = cal.get(Calendar.DAY_OF_WEEK);
-        if(day_of_week == 1){
+        if (day_of_week == 1) {
             day_of_week = 6;
-        }else{
+        } else {
             day_of_week = day_of_week - 2;
         }
 
@@ -504,15 +598,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         } else {
             cursor.moveToFirst();
             ArrayList<LeaveReport> leaveReports = new ArrayList<LeaveReport>();
-            do{
+            do {
                 LeaveReport leaveReport = new LeaveReport();
                 leaveReport.setClass_id(cursor.getLong(1));
                 leaveReport.setCourse_name(cursor.getString(2));
                 leaveReport.setInstructor_name(cursor.getString(3));
                 leaveReport.setTime_in_day(cursor.getString(4));
                 leaveReports.add(leaveReport);
-                if(cursor.getString(7) != null){
-                    if(cursor.getString(7).contains(date)){
+                if (cursor.getString(7) != null) {
+                    if (cursor.getString(7).contains(date)) {
                         leaveReport.setOnleave_id(cursor.getLong(0));
                         leaveReport.setStatus(cursor.getLong(5));
                         leaveReport.setReason(cursor.getString(6));
@@ -524,6 +618,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             return leaveReports;
         }
     }
+
     //Thêm nếu chưa có, cập nhật nếu chưa có
     public boolean addOnleaveRecord(Long onleaveId, long classId, long studentId, String date, String reason) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -557,7 +652,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             db.close();
             return true;
-        } else{
+        } else {
             cursor.moveToFirst();
             ContentValues values = new ContentValues();
             values.put(ONLEAVES_STATUS, 2);
