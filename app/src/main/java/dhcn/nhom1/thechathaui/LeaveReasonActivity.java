@@ -23,7 +23,7 @@ public class LeaveReasonActivity extends AppCompatActivity{
         btnLuuBN = findViewById(R.id.btnLuuBN);
         btnHuyBN = findViewById(R.id.btnHuyBN);
         edtLyDoBN = findViewById(R.id.edtLyDoBN);
-
+        //Lấy dữ liệu được truyền
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("LeaveReportData");
 

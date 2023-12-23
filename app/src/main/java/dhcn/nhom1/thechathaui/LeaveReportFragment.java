@@ -62,18 +62,7 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
         lsvNgayNghi.setAdapter(adapter);
 
         setDate();
-
-        lsvNgayNghi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            }
-        });
-        lsvNgayNghi.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
-            }
-        });
+        //Cài đặt để sau khi thay đổi ngày chọn sẽ tự động cập nhật ListView
         txvNgayNghi.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,6 +88,7 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
             }
         });
         registerForContextMenu(lsvNgayNghi);
+        //Đăng ký gọi Acivity để lấy kết quả trả về
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -118,14 +108,14 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
 
         imbNgayNghi.setOnClickListener(this);
     }
-
+    //Lấy một số dữ liệu cần thiết cho Fragment
     private void getData(){
         context = this.getContext();
         db = new MyDatabaseHelper(context);
         long StudentId = Long.parseLong(db.getStudentIdSignIn());
         student = db.getStudentById(StudentId);
     }
-
+    //Đặt ngày mặc định khi điều hướng tới Fragment này và hiẻn thị ListView
     private void setDate() {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -152,6 +142,7 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if(v == imbNgayNghi){
+            //Cài đặt DatePicker cho nút chọn ngày
             DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -173,7 +164,7 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
             pic.show();
         }
     }
-
+    //Tạo và xử lý sự kiện trên menu context cho ListView
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -186,6 +177,7 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int pos = info.position;
         if(id == R.id.itBaoNghi){
+            //Gọi và truyền dữ liệu cho LeaveReasonActivity
             Intent intent = new Intent(context, LeaveReasonActivity.class);
             Bundle bundle = new Bundle();
 
@@ -203,6 +195,7 @@ public class LeaveReportFragment extends Fragment implements View.OnClickListene
             intent.putExtra("LeaveReportData",bundle);
             launcher.launch(intent);
         } else if (id == R.id.itDatLai) {
+            //Đặt lại trạng thái bình thường cho lớp học
             if(list.get(pos).getOnleave_id() == null){
                 Toast.makeText(context, "Không cần phải đặt lại!", Toast.LENGTH_SHORT).show();
             }else{

@@ -37,9 +37,11 @@ public class HistoryActivity extends AppCompatActivity {
         txvLichSu = findViewById(R.id.txvLichSu);
         lsvLichSu = findViewById(R.id.lsvLichSu);
 
+        //Tạo nút Back trên toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Nhận dữ liệu được truyền đi từ TodoFragment
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("StartEndData");
         String start = bundle.getString("start");
@@ -47,14 +49,13 @@ public class HistoryActivity extends AppCompatActivity {
         Long studentId = bundle.getLong("studentId");
 
         txvLichSu.setText("Từ " + start + " đến " + end);
-
+        //Format lại string ngày bắt đầu và ngày kết thúc để truyền vào hàm lấy dữ liệu
         Date startDate;
         try {
             startDate = new SimpleDateFormat("dd/MM/yyyy").parse(start);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        startDate = new Date(startDate.getTime() - MILLIS_IN_A_DAY);
         start = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
         Date endDate;
         try {
@@ -62,12 +63,13 @@ public class HistoryActivity extends AppCompatActivity {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        //Tăng endDate lên 1 ngày (00:00:00 ngày hôm sau) để có thể lấy được dữ liệu ngày kết thúc
         endDate = new Date(endDate.getTime() + MILLIS_IN_A_DAY);
         end = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
 
         MyDatabaseHelper db = new MyDatabaseHelper(this);
         ArrayList<Tracker> trackers = db.getTrackerInDateRange(start, end, studentId);
-
+        //Lấy nguồn dữ liệu cho ListView
         for(int i = 0; i < trackers.size(); i++){
             History history = new History();
             Date d;

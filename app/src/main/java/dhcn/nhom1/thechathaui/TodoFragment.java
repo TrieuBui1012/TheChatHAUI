@@ -47,6 +47,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         return inflater.inflate(R.layout.fragment_todo, container, false);
     }
 
+    //Giúp fragment luôn được cập nhật khi có sự thay đổi trong cơ sở dữ liệu
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -54,6 +55,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         getData();
         calculateBMI();
         calculateWater(Long.parseLong(String.valueOf(edtPhutTheDuc.getText())));
+        //Tính lại lượng nước cần uống khi thay đổi thời gian tập thể dục
         edtPhutTheDuc.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -76,9 +78,12 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
         });
         calculateExerciseTime();
 
+        //Cài đặt hiển thị cho thanh tiến trình
         isChbNuocChecked = (chbNuoc.isChecked() == true) ? 1 : 0;
         isChbTheDucChecked = (chbTheDuc.isChecked() == true) ? 1 : 0;
         pgbTienTrinh.setProgress(isChbNuocChecked + isChbTheDucChecked);
+
+        //Thay đổi thanh tiến trình khi các CheckBox thay đổi
         chbNuoc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -221,6 +226,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == imbBatDau){
+            //Cài đặt DatePicker cho ngày bắt đầu
             DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -241,6 +247,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
             pic.setTitle("Chọn ngày");
             pic.show();
         } else if (v == imbKetThuc) {
+            //Cài đặt DatePicker cho ngày kết thúc
             DatePickerDialog.OnDateSetListener callback = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -261,7 +268,7 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
             pic.setTitle("Chọn ngày");
             pic.show();
         } else if (v == btnLichSu) {
-
+            //Gọi đến HistoryActivity và truyền dữ liệu ngày bắt đầu, ngày kết thúc cho nó
             if((String.valueOf(txvBatDau.getText()).trim().length() == 0) || (String.valueOf(txvKetThuc.getText()).trim().length() == 0)){
                 Toast.makeText(context, "Hãy chọn đầy đủ ngày bắt đầu và ngày kết thúc!", Toast.LENGTH_SHORT).show();
             } else{
@@ -291,5 +298,4 @@ public class TodoFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
 }
