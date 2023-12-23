@@ -684,4 +684,49 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    //Thêm nếu chưa có, cập nhật nếu đã có
+    public boolean addSickReport(Long onleaveId, long classId, long studentId, String date, String reason) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        Date d;
+        try {
+            d = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        date = new SimpleDateFormat("yyyy-MM-dd").format(d);
+
+        try {
+            cursor = db.query(TABLE_ONLEAVES,
+                    new String[]{ONLEAVES_ID},
+                    ONLEAVES_ID + " = ?",
+                    new String[]{String.valueOf(onleaveId)},
+                    null, null, null);
+        } catch (Exception e) {
+            db.close();
+            return false;
+        }
+        if (cursor.getCount() == 0) {
+            ContentValues values = new ContentValues();
+            values.put(ONLEAVES_STATUS, 1);
+            values.put(ONLEAVES_REASON, reason);
+            values.put(ONLEAVES_DATE, date);
+            values.put(ONLEAVES_CLASS_ID, classId);
+            values.put(ONLEAVES_STUDENT_ID, studentId);
+            db.insert(TABLE_ONLEAVES, null, values);
+            cursor.close();
+            db.close();
+            return true;
+        } else{
+            cursor.moveToFirst();
+            ContentValues values = new ContentValues();
+            values.put(ONLEAVES_STATUS, 1);
+            values.put(ONLEAVES_REASON, reason);
+            db.update(TABLE_ONLEAVES, values, ONLEAVES_ID + " = ?", new String[]{String.valueOf(onleaveId)});
+            cursor.close();
+            db.close();
+            return true;
+        }
+    }
+
 }

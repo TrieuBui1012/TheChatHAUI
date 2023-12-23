@@ -7,15 +7,87 @@
     android:background="#DCEDC8"
     tools:context=".HealthFragment">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tab Sức khoẻ"
-        android:textSize="16dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-3dp"
+            android:background="#4CAF50"
+            android:theme="?attr/actionBarTheme"
+            app:titleTextColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/txtViewCH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="72dp"
+            android:text="Hôm nay bạn cảm thấy thế nào ?"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spnBenh"
+            android:layout_width="195dp"
+            android:layout_height="38dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="106dp" />
+
+        <TextView
+            android:id="@+id/txtViewBenh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="157dp"
+            android:text="Bệnh"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edtBenh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="146dp"
+            android:layout_marginRight="-259dp"
+            android:layout_toLeftOf="@+id/txtViewBenh"
+            android:ems="10"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/btnLuu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="156dp"
+            android:layout_marginTop="204dp"
+            android:background="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:text="Lưu" />
+
+        <ListView
+            android:id="@+id/lstViewTKB"
+            android:layout_width="417dp"
+            android:layout_height="399dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="280dp"
+            android:layout_marginBottom="52dp" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -100,13 +100,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Điểm chữ: A" />
+            android:text="Điểm chữ: A"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txvGraded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Xếp loại: Giỏi" />
+            android:text="Xếp loại: Giỏi"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>
