@@ -1,7 +1,7 @@
 # TheChatHAUI
 Link Repository Github: https://github.com/TrieuBui1012/TheChatHAUI.git
 
-Account to Sign in this app:
+Accounts to Sign in this app:
 1. UserID: 2021600001 - Password: 2021600001
 2. UserID: 2021600002 - Password: 2021600002
 3. UserID: 2021600003 - Password: 2021600003
